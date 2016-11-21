@@ -60,7 +60,7 @@ public class LoginActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            Intent intent = new Intent(LoginActivity.this, CategoryActivity.class);
+            Intent intent = new Intent(LoginActivity.this, ProductActivity.class);
             intent.putExtra("username",s);
 
             startActivity(intent);
