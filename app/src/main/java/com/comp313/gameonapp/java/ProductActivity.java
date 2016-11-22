@@ -1,13 +1,10 @@
 package com.comp313.gameonapp.java;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,24 +14,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.nio.BufferUnderflowException;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.List;
-
 import com.comp313.gameonapp.model.ProductModel;
-import com.comp313.gameonapp.json.JSONFunctions;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -55,27 +35,6 @@ import java.util.List;
 
 public class ProductActivity extends AppCompatActivity {
 
-   /* before changes
-    @Override
-
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
-        setContentView(R.layout.activity_product);
-
-        try{
-            String requestURL = getResources().getString(R.string.server_address)+ "getproducts.aspx";
-            JSONArray jsonArray = JSONFunctions.getJSONArrayfromURL(requestURL);
-            for(int i=0; i< jsonArray.length();i++) {
-                JSONObject one = jsonArray.getJSONObject(i);
-            }
-        }
-        catch (Exception ex){
-            Log.d("product_tag",ex.toString());
-        }
-    }
-}*/
     private ListView listofprod;
 
     //private TextView tvdata;
@@ -102,7 +61,7 @@ public class ProductActivity extends AppCompatActivity {
         getinfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new JsonThread().execute("http://www.gameon.enigmacondos.ca/API/products/getproducts");
+                new JsonThread().execute(getResources().getString(R.string.server_address)+"products/getproducts");
             }
         });
     }
@@ -146,14 +105,6 @@ public class ProductActivity extends AppCompatActivity {
                     model.setImage(arrobj.getString("ProductThumbnail"));
 
 
-                    /*int productID = arrobj.getInt("ProductID");
-                    String productName = arrobj.getString("ProductName");
-                    String prodesc = arrobj.getString("ProductDescription");
-                    String price = arrobj.getString("ProductPrice");
-                    String subcat = arrobj.getString("ProductSubCategoryID");
-                    String img = arrobj.getString("ProductThumbnail");*/
-                    //resultdata.append(productID + " \n " + productName + " \n " + prodesc + " \n " + price + " \n " + subcat + " \n " + img+"\n\n");
-                    //resultdata.append(productID + " \n " + productName + " \n " );
                     prodlist.add(model);
                 }
                 return prodlist;
@@ -218,17 +169,9 @@ public class ProductActivity extends AppCompatActivity {
             pimg = (ImageView) convertView.findViewById(R.id.pimg);
             pname = (TextView) convertView.findViewById(R.id.pname);
             pprice = (TextView) convertView.findViewById(R.id.pprice);
-           // pdesc = (TextView) convertView.findViewById(R.id.pdesc);
-
-            //byte[] b = productModelsList.get(position).getImage().getBytes();
-            //InputStream stream = new ByteArrayInputStream(productModelsList.get(position).getImage().getBytes());
             ImageLoader.getInstance().displayImage(productModelsList.get(position).getImage(), pimg);
-            //Bitmap bmp = BitmapFactory.decodeFile(productModelsList.get(position).getImage());
-            //Bitmap bmp = BitmapFactory.decodeStream(stream);
-            //pimg.setImageBitmap(bmp);
             pname.setText(productModelsList.get(position).getName());
             pprice.setText("Price: "+ productModelsList.get(position).getPrice());
-           // pdesc.setText(productModelsList.get(position).getDescription());
 
             return convertView;
         }
