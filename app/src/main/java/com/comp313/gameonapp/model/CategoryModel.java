@@ -10,6 +10,17 @@ public class CategoryModel {
     private int deptid;
     private String deptname;
 
+    public CategoryModel(int catid, String catname, int deptid, String deptname){
+        this.catid = catid;
+        this.catname = catname;
+        this.deptid = deptid;
+        this.deptname = deptname;
+    }
+
+    public CategoryModel() {
+
+    }
+
     public int getDeptid() {
         return deptid;
     }
@@ -41,4 +52,6 @@ public class CategoryModel {
     public void setDeptname(String deptname) {
         this.deptname = deptname;
     }
+
+
 }

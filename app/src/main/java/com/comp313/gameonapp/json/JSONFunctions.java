@@ -26,9 +26,9 @@ public class JSONFunctions {
             URL objURL = new URL(url);
             HttpURLConnection urlConnection = (HttpURLConnection) objURL.openConnection();
             try{
-                urlConnection.setDoInput(true);
-                urlConnection.setDoOutput(true);
-                urlConnection.setRequestMethod("POST");
+//                urlConnection.setDoInput(true);
+//                urlConnection.setDoOutput(true);
+//                urlConnection.setRequestMethod("POST");
                 is=urlConnection.getInputStream();
                 BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(is));
                 StringBuilder stringBuilder = new StringBuilder();

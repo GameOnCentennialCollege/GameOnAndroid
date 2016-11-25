@@ -153,6 +153,9 @@ public class ProductActivity extends AppCompatActivity {
             productModelsList = objects;
             this.resource = resource;
             inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+
+
+
         }
 
         @NonNull
