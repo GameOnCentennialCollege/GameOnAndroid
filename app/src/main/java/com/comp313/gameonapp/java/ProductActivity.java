@@ -183,7 +183,7 @@ public class ProductActivity extends AppCompatActivity {
             pprice = (TextView) convertView.findViewById(R.id.pprice);
             ImageLoader.getInstance().displayImage(productModelsList.get(position).getImage(), pimg);
             pname.setText(productModelsList.get(position).getName());
-            pprice.setText("Price: "+ productModelsList.get(position).getPrice());
+            pprice.setText("Price: $"+ productModelsList.get(position).getPrice());
 
             return convertView;
         }
