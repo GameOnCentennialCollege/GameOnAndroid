@@ -1,6 +1,7 @@
 package com.comp313.gameonapp.java;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -36,6 +37,7 @@ import java.util.List;
 public class ProductActivity extends AppCompatActivity {
 
     private ListView listofprod;
+    int subcategoryId;
 
     //private TextView tvdata;
 
@@ -43,6 +45,9 @@ public class ProductActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product);
+
+        Intent intent = getIntent();
+        subcategoryId = intent.getIntExtra("SubCategoryid",0);
 
         DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()
         .cacheInMemory(true)
@@ -55,15 +60,16 @@ public class ProductActivity extends AppCompatActivity {
 
         listofprod = (ListView) findViewById(R.id.listprod);
 
-        Button getinfo = (Button) findViewById(R.id.get);
+        //Button getinfo = (Button) findViewById(R.id.get);
         //tvdata = (TextView) findViewById(R.id.jsonitem);
+        new JsonThread().execute(getResources().getString(R.string.server_address)+"products/getproducts");
 
-        getinfo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new JsonThread().execute(getResources().getString(R.string.server_address)+"products/getproducts");
-            }
-        });
+//        getinfo.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                new JsonThread().execute(getResources().getString(R.string.server_address)+"products/getproducts");
+//            }
+//        });
     }
 
     public class  JsonThread extends AsyncTask<String, String, List<ProductModel>> {
@@ -94,18 +100,21 @@ public class ProductActivity extends AppCompatActivity {
 
                 List<ProductModel> prodlist = new ArrayList<>();
                 for(int i=0; i<categoriesArray.length(); i++) {
+
                     JSONObject arrobj = categoriesArray.getJSONObject(i);
-                    ProductModel model = new ProductModel();
-                    model.setId(arrobj.getInt("ProductID"));
-                    model.setName(arrobj.getString("ProductName"));
-                    model.setDescription(arrobj.getString("ProductDescription"));
-                    model.setPrice(arrobj.getInt("ProductPrice"));
-                    model.setSub(arrobj.getInt("ProductSubCategoryID"));
-                    //model.setImage(arrobj.getString("ProductThumbnail"));
-                    model.setImage(arrobj.getString("ProductThumbnail"));
+                    if(arrobj.getInt("ProductSubCategoryID") == subcategoryId) {
+                        ProductModel model = new ProductModel();
+                        model.setId(arrobj.getInt("ProductID"));
+                        model.setName(arrobj.getString("ProductName"));
+                        model.setDescription(arrobj.getString("ProductDescription"));
+                        model.setPrice(arrobj.getInt("ProductPrice"));
+                        model.setSub(arrobj.getInt("ProductSubCategoryID"));
+                        //model.setImage(arrobj.getString("ProductThumbnail"));
+                        model.setImage(arrobj.getString("ProductThumbnail"));
 
 
-                    prodlist.add(model);
+                        prodlist.add(model);
+                    }
                 }
                 return prodlist;
             } catch (MalformedURLException e) {

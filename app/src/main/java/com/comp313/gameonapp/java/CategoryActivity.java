@@ -89,9 +89,11 @@ public class CategoryActivity extends AppCompatActivity {
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     //String item = ((String) listofCategory.getItemAtPosition(position));
                     String item = catlist.get(position).getCatname();
-
-
+                    int categoryid = catlist.get(position).getCatid();
                     Toast.makeText(getBaseContext(), item, Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(CategoryActivity.this, SubCategories.class);
+                    intent.putExtra("Categoryid",categoryid);
+                    startActivity(intent);
                 }
             });
 
