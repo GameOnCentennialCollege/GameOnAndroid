@@ -42,12 +42,7 @@ public class LoginActivity extends AppCompatActivity {
         String username= editEmail.getText().toString();
         String password = editPassword.getText().toString();
 
-        JSONObject jsonObject = new JSONObject();
-        //String requestURL = getResources().getString(R.string.server_address)+ "login";
-
         new JSONLogin().execute(username,password);
-
-
     }
 
     public class JSONLogin extends AsyncTask<String ,Void,String>{
@@ -92,6 +87,8 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(intent);
             }
             else{
+                loginbtn.setVisibility(View.VISIBLE);
+                layout.setVisibility(View.GONE);
                 editPassword.setError("Invalid Credentials Provided");
             }
 
