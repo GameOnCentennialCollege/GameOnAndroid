@@ -9,16 +9,23 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.AdapterView;
+import android.widget.ExpandableListAdapter;
+import android.widget.LinearLayout;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.comp313.gameonapp.json.JSONFunctions;
 import com.comp313.gameonapp.model.CategoryModel;
-
+import java.util.HashMap;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import android.widget.ExpandableListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,17 +35,28 @@ public class CategoryActivity extends AppCompatActivity {
     private ListView listofCategory;
     private CategoryAdapter padater;
     List<CategoryModel> catlist;
+    LinearLayout layout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category);
 
+        layout = (LinearLayout) findViewById(R.id.progressbar_view);
+
         Intent intent = getIntent();
+        String message = intent.getStringExtra("username");
+//        TextView textView = new TextView(this);
+//        textView.setTextSize(40);
+//        textView.setText(message);
+
         ViewGroup layout = (ViewGroup) findViewById(R.id.activity_category);
 //        layout.addView(textView);
 
         listofCategory = (ListView) findViewById(R.id.listcategory);
+
+        layout.setVisibility(View.VISIBLE);
+        listofCategory.setVisibility(View.GONE);
         // get the listview
         new JsonCategory().execute();
     }
@@ -95,6 +113,9 @@ public class CategoryActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(List<CategoryModel> result) {
             super.onPostExecute(result);
+
+            layout.setVisibility(View.GONE);
+            listofCategory.setVisibility(View.VISIBLE);
             padater = new CategoryAdapter(getApplicationContext(), R.layout.categoryrow, result);
             listofCategory.setAdapter(padater);
 

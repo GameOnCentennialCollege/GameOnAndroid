@@ -12,6 +12,28 @@
     android:background="#f4f4f4"
     tools:context="com.comp313.gameonapp.java.CategoryActivity">
 
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+        android:id="@+id/progressbar_view">
+
+        <ProgressBar
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|center_horizontal"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:text="Loading data..." />
+    </LinearLayout>
+
+
 
     <ListView
         android:layout_width="wrap_content"
