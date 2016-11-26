@@ -4,6 +4,9 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -40,6 +43,27 @@ public class SubCategories extends AppCompatActivity {
 
         listofSubCategory = (ListView) findViewById(R.id.listsubcategory);
         new JsonSubCategory().execute();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.app_menu,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case R.id.item_profile:
+                break;
+            case R.id.item_category:
+                break;
+            case R.id.item_logout:
+                break;
+        }
+        return true;
     }
 
     public class JsonSubCategory extends AsyncTask<String, String, List<SubCategoryModel>> {
@@ -80,13 +104,13 @@ public class SubCategories extends AppCompatActivity {
             listofSubCategory.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    //String item = ((String) listofCategory.getItemAtPosition(position));
-                    String item = subcatlist.get(position).getSubcatname();
-                   int subcategoryid = subcatlist.get(position).getSubcatid();
-                    Toast.makeText(getBaseContext(), item, Toast.LENGTH_LONG).show();
-                    Intent intent = new Intent(SubCategories.this, ProductActivity.class);
-                    intent.putExtra("SubCategoryid",subcategoryid);
-                    startActivity(intent);
+                //String item = ((String) listofCategory.getItemAtPosition(position));
+                String item = subcatlist.get(position).getSubcatname();
+                int subcategoryid = subcatlist.get(position).getSubcatid();
+                Toast.makeText(getBaseContext(), item, Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(SubCategories.this, ProductActivity.class);
+                intent.putExtra("SubCategoryid",subcategoryid);
+                startActivity(intent);
                 }
             });
 

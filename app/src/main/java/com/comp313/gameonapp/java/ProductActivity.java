@@ -7,10 +7,12 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -60,16 +62,28 @@ public class ProductActivity extends AppCompatActivity {
 
         listofprod = (ListView) findViewById(R.id.listprod);
 
-        //Button getinfo = (Button) findViewById(R.id.get);
-        //tvdata = (TextView) findViewById(R.id.jsonitem);
         new JsonThread().execute(getResources().getString(R.string.server_address)+"products/getproducts");
+    }
 
-//        getinfo.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                new JsonThread().execute(getResources().getString(R.string.server_address)+"products/getproducts");
-//            }
-//        });
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.app_menu,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case R.id.item_profile:
+                break;
+            case R.id.item_category:
+                break;
+            case R.id.item_logout:
+                break;
+        }
+        return true;
     }
 
     public class  JsonThread extends AsyncTask<String, String, List<ProductModel>> {

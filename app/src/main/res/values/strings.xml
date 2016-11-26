@@ -21,4 +21,7 @@
     <string name="username">Name</string>
     <string name="email">Email</string>
     <string name="userphone">Phone</string>
+    <string name="tProfile">Profile</string>
+    <string name="tCategory">Categories</string>
+    <string name="tLogout">Logout</string>
 </resources>

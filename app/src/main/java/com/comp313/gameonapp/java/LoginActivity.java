@@ -1,6 +1,7 @@
 package com.comp313.gameonapp.java;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -14,6 +15,8 @@ import org.json.JSONObject;
 
 public class LoginActivity extends AppCompatActivity {
 
+    EditText editPassword, editEmail;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,8 +25,8 @@ public class LoginActivity extends AppCompatActivity {
 
     public void sendContent(View view)
     {
-        EditText editEmail = (EditText) findViewById(R.id.etEmail);
-        EditText editPassword = (EditText) findViewById(R.id.etPassword);
+        editEmail = (EditText) findViewById(R.id.etEmail);
+        editPassword = (EditText) findViewById(R.id.etPassword);
 
         String username= editEmail.getText().toString();
         String password = editPassword.getText().toString();
@@ -52,18 +55,34 @@ public class LoginActivity extends AppCompatActivity {
             }
 
             JSONObject jsonUser = JSONFunctions.sendJSONToURL(requestURL, json);
-
-            //return userObj.toString();
-            return jsonUser.toString();
+            try {
+                if(jsonUser.getJSONArray("user").length() >0) {
+                    SharedPreferences preferences = getSharedPreferences("UserPref",0);
+                    SharedPreferences.Editor editor = preferences.edit();
+                    editor.putString("user",json);
+                    return jsonUser.toString();
+                }
+                else
+                    return "";
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            //return jsonUser.toString();
+            return "";
         }
 
         @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-            Intent intent = new Intent(LoginActivity.this, CategoryActivity.class);
-            intent.putExtra("username",s);
+        protected void onPostExecute(String userJsonString) {
+            super.onPostExecute(userJsonString);
+            if(userJsonString != ""){
+                Intent intent = new Intent(LoginActivity.this, CategoryActivity.class);
+                intent.putExtra("username",userJsonString);
+                startActivity(intent);
+            }
+            else{
+                editPassword.setError("Invalid Credentials Provided");
+            }
 
-            startActivity(intent);
         }
     }
 
