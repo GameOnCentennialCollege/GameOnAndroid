@@ -1,6 +1,7 @@
 package com.comp313.gameonapp.java;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -9,29 +10,25 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.AdapterView;
-import android.widget.ExpandableListAdapter;
 import android.widget.LinearLayout;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.comp313.gameonapp.json.JSONFunctions;
 import com.comp313.gameonapp.model.CategoryModel;
-import java.util.HashMap;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import android.widget.ExpandableListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
 public class CategoryActivity extends AppCompatActivity {
+    SharedPreferences preferences;
+    Intent intent;
     private ListView listofCategory;
     private CategoryAdapter padater;
     List<CategoryModel> catlist;
@@ -46,18 +43,12 @@ public class CategoryActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         String message = intent.getStringExtra("username");
-//        TextView textView = new TextView(this);
-//        textView.setTextSize(40);
-//        textView.setText(message);
 
         ViewGroup layout = (ViewGroup) findViewById(R.id.activity_category);
-//        layout.addView(textView);
-
         listofCategory = (ListView) findViewById(R.id.listcategory);
 
         layout.setVisibility(View.VISIBLE);
         listofCategory.setVisibility(View.GONE);
-        // get the listview
         new JsonCategory().execute();
     }
 
@@ -73,10 +64,18 @@ public class CategoryActivity extends AppCompatActivity {
 
         switch (item.getItemId()) {
             case R.id.item_profile:
+                intent = new Intent(CategoryActivity.this, ProfileActivity.class);
+                preferences = getSharedPreferences("UserPref",0);
+                preferences.edit().clear();
+                startActivity(intent);
                 break;
             case R.id.item_category:
                 break;
             case R.id.item_logout:
+                intent = new Intent(CategoryActivity.this, LoginActivity.class);
+                preferences = getSharedPreferences("UserPref",0);
+                preferences.edit().clear();
+                startActivity(intent);
                 break;
         }
         return true;
@@ -99,11 +98,9 @@ public class CategoryActivity extends AppCompatActivity {
                         catlist.add(model);
                     }
                     return catlist;
-
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
             } catch (JSONException e) {
                 e.printStackTrace();
             }

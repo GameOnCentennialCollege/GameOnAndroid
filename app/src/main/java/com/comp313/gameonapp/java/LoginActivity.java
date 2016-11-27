@@ -1,10 +1,10 @@
 package com.comp313.gameonapp.java;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,7 +15,7 @@ import com.comp313.gameonapp.json.JSONFunctions;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends Activity {
 
     LinearLayout layout;
     Button loginbtn;
@@ -65,7 +65,8 @@ public class LoginActivity extends AppCompatActivity {
                 if(jsonUser.getJSONArray("user").length() >0) {
                     SharedPreferences preferences = getSharedPreferences("UserPref",0);
                     SharedPreferences.Editor editor = preferences.edit();
-                    editor.putString("user",json);
+                    editor.putString("user",jsonUser.toString());
+                    editor.commit();
                     return jsonUser.toString();
                 }
                 else

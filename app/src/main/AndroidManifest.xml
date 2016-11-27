@@ -27,7 +27,8 @@
         <activity android:name=".RegisterActivity" />
         <activity android:name=".CategoryActivity" />
         <activity android:name=".ProductActivity" />
-        <activity android:name=".SubCategories"></activity>
+        <activity android:name=".SubCategories" />
+        <activity android:name=".ProfileActivity"></activity>
     </application>
 
 </manifest>

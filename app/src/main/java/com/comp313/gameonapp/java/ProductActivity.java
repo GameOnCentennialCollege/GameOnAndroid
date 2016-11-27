@@ -79,6 +79,8 @@ public class ProductActivity extends AppCompatActivity {
             case R.id.item_profile:
                 break;
             case R.id.item_category:
+                Intent intent = new Intent(ProductActivity.this, CategoryActivity.class);
+                startActivity(intent);
                 break;
             case R.id.item_logout:
                 break;
