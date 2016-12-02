@@ -12,10 +12,12 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.comp313.gameonapp.model.ProductModel;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -40,8 +42,9 @@ public class ProductActivity extends AppCompatActivity {
 
     private ListView listofprod;
     int subcategoryId;
+    List<ProductModel> prodlist;
+    ProductAdapter prodadapter;
 
-    //private TextView tvdata;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,10 +114,9 @@ public class ProductActivity extends AppCompatActivity {
 
                 JSONObject obj = new JSONObject(jobj);
                 JSONArray categoriesArray = obj.getJSONArray("product");
-                //StringBuffer resultdata = new StringBuffer();
 
 
-                List<ProductModel> prodlist = new ArrayList<>();
+                prodlist = new ArrayList<>();
                 for(int i=0; i<categoriesArray.length(); i++) {
 
                     JSONObject arrobj = categoriesArray.getJSONObject(i);
@@ -125,7 +127,6 @@ public class ProductActivity extends AppCompatActivity {
                         model.setDescription(arrobj.getString("ProductDescription"));
                         model.setPrice(arrobj.getInt("ProductPrice"));
                         model.setSub(arrobj.getInt("ProductSubCategoryID"));
-                        //model.setImage(arrobj.getString("ProductThumbnail"));
                         model.setImage(arrobj.getString("ProductThumbnail"));
 
 
@@ -157,53 +158,29 @@ public class ProductActivity extends AppCompatActivity {
 
 
         @Override
-        protected void onPostExecute(List<ProductModel> result) {
+        protected void onPostExecute(final List<ProductModel> result) {
             super.onPostExecute(result);
-            //tvdata.setText(result);
-            ProductAdapter padater = new ProductAdapter(getApplicationContext(), R.layout.productrow, result);
 
-            listofprod.setAdapter(padater);
+            prodadapter = new ProductAdapter(getApplicationContext(), R.layout.productrow, result);
+            listofprod.setAdapter(prodadapter);
+
+            listofprod.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    String item = prodlist.get(position).getName();
+                    int prodid = prodlist.get(position).getId();
+                    Toast.makeText(getBaseContext(), item, Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(ProductActivity.this, SubCategories.class);
+                    intent.putExtra("Productid",prodid);
+                    startActivity(intent);
+                }
+            });
 
 
         }
     }
 
-    public class ProductAdapter extends ArrayAdapter {
 
-        public List<ProductModel> productModelsList;
-        private int resource;
-        private LayoutInflater inflater;
-        public ProductAdapter(Context context, int resource, List<ProductModel> objects) {
-            super(context, resource, objects);
-            productModelsList = objects;
-            this.resource = resource;
-            inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
-
-
-
-        }
-
-        @NonNull
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            if(convertView == null){
-                convertView =inflater.inflate(resource,null);
-            }
-            ImageView pimg;
-            TextView pname;
-            TextView pprice;
-            TextView pdesc;
-
-            pimg = (ImageView) convertView.findViewById(R.id.pimg);
-            pname = (TextView) convertView.findViewById(R.id.pname);
-            pprice = (TextView) convertView.findViewById(R.id.pprice);
-            ImageLoader.getInstance().displayImage(productModelsList.get(position).getImage(), pimg);
-            pname.setText(productModelsList.get(position).getName());
-            pprice.setText("Price: $"+ productModelsList.get(position).getPrice());
-
-            return convertView;
-        }
-    }
 
 
 }

@@ -22,13 +22,7 @@ public class ProductModel {
         this.id = id;
     }
 
-    public int getPrice() {
-        return price;
-    }
 
-    public void setPrice(int price) {
-        this.price = price;
-    }
 
     public String getName() {
         return name;
@@ -36,6 +30,14 @@ public class ProductModel {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
     }
 
     public String getDescription() {
