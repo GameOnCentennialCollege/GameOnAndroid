@@ -1,10 +1,12 @@
 package com.comp313.gameonapp.model;
 
+import java.io.Serializable;
+
 /**
  * Created by Ganesh on 10/14/2016.
  */
 
-public class ProductModel {
+public class ProductModel implements Serializable {
     private int id;
 
     private String name;
