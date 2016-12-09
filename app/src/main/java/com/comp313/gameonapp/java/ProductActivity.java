@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
@@ -32,6 +33,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.Serializable;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -167,14 +169,25 @@ public class ProductActivity extends AppCompatActivity {
             listofprod.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    String item = prodlist.get(position).getName();
-                    int prodid = prodlist.get(position).getId();
-                    Toast.makeText(getBaseContext(), item, Toast.LENGTH_LONG).show();
-                    Intent intent = new Intent(ProductActivity.this, SubCategories.class);
-                    intent.putExtra("Productid",prodid);
+                    Intent intent = new Intent(getApplicationContext(), ProductDescription.class);
+                    System.out.println(result.get(position).getId());
+                    intent.putExtra("Product", result.get(position));
                     startActivity(intent);
                 }
             });
+
+
+//            listofprod.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//                @Override
+//                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                    String item = prodlist.get(position).getName();
+//                    int prodid = prodlist.get(position).getId();
+//                    Toast.makeText(getBaseContext(), item, Toast.LENGTH_LONG).show();
+//                    Intent intent = new Intent(ProductActivity.this, SubCategories.class);
+//                    intent.putExtra("Productid",prodid);
+//                    startActivity(intent);
+//                }
+//            });
 
 
         }

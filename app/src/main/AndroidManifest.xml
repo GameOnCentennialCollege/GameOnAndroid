@@ -29,6 +29,8 @@
         <activity android:name=".ProductActivity" />
         <activity android:name=".SubCategories" />
         <activity android:name=".ProfileActivity"></activity>
+        <activity android:name=".ProductDescription" />
+        <activity android:name=".CartActivity"></activity>
     </application>
 
 </manifest>
