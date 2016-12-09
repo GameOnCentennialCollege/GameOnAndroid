@@ -3,6 +3,7 @@ package com.comp313.gameonapp.java;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.EditText;
 
 import org.json.JSONArray;
@@ -55,5 +56,9 @@ public class ProfileActivity extends AppCompatActivity {
         etPassword.setText(userObject.getString("UserPassword"));
         etEmail.setText(userObject.getString("UserEmail"));
         etPhone.setText(userObject.getString("UserPhone"));
+    }
+
+    public void callUpdate(View view) {
+
     }
 }
