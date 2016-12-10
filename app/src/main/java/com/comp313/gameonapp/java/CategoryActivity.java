@@ -77,6 +77,9 @@ public class CategoryActivity extends AppCompatActivity {
                 preferences.edit().clear();
                 startActivity(intent);
                 break;
+            case R.id.item_cart:
+                intent = new Intent(CategoryActivity.this, CartActivity.class);
+                startActivity(intent);
         }
         return true;
     }

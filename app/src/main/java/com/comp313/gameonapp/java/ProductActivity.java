@@ -1,6 +1,7 @@
 package com.comp313.gameonapp.java;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -32,6 +33,7 @@ import java.util.List;
 
 public class ProductActivity extends AppCompatActivity {
 
+    SharedPreferences preferences;
     private ListView listofprod;
     int subcategoryId;
     List<ProductModel> prodlist;
@@ -72,12 +74,20 @@ public class ProductActivity extends AppCompatActivity {
         Intent intent;
         switch (item.getItemId()) {
             case R.id.item_profile:
+                intent = new Intent(ProductActivity.this, ProfileActivity.class);
+                preferences = getSharedPreferences("UserPref",0);
+                preferences.edit().clear();
+                startActivity(intent);
                 break;
             case R.id.item_category:
                 intent = new Intent(ProductActivity.this, CategoryActivity.class);
                 startActivity(intent);
                 break;
             case R.id.item_logout:
+                intent = new Intent(ProductActivity.this, LoginActivity.class);
+                preferences = getSharedPreferences("UserPref",0);
+                preferences.edit().clear();
+                startActivity(intent);
                 break;
             case R.id.item_cart:
                 intent = new Intent(ProductActivity.this, CartActivity.class);
@@ -110,7 +120,6 @@ public class ProductActivity extends AppCompatActivity {
                 JSONObject obj = new JSONObject(jobj);
                 JSONArray categoriesArray = obj.getJSONArray("product");
 
-
                 prodlist = new ArrayList<>();
                 for(int i=0; i<categoriesArray.length(); i++) {
 
@@ -123,7 +132,6 @@ public class ProductActivity extends AppCompatActivity {
                         model.setPrice(arrobj.getInt("ProductPrice"));
                         model.setSub(arrobj.getInt("ProductSubCategoryID"));
                         model.setImage(arrobj.getString("ProductThumbnail"));
-
 
                         prodlist.add(model);
                     }
@@ -146,7 +154,6 @@ public class ProductActivity extends AppCompatActivity {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-
             }
             return null;
         }

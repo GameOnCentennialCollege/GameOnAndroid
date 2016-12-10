@@ -8,6 +8,9 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -34,6 +37,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CartActivity extends AppCompatActivity {
+    SharedPreferences preferences;
     JSONObject jsonUserObj = null;
     private ListView listofprod;
     ArrayList prodlist;
@@ -193,5 +197,38 @@ public class CartActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.app_menu,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Intent intent;
+        switch (item.getItemId()) {
+            case R.id.item_profile:
+                intent = new Intent(CartActivity.this, ProfileActivity.class);
+                preferences = getSharedPreferences("UserPref",0);
+                preferences.edit().clear();
+                startActivity(intent);
+                break;
+            case R.id.item_category:
+                intent = new Intent(CartActivity.this, CategoryActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.item_logout:
+                intent = new Intent(CartActivity.this, LoginActivity.class);
+                preferences = getSharedPreferences("UserPref",0);
+                preferences.edit().clear();
+                startActivity(intent);
+                break;
+            case R.id.item_cart:
+                intent = new Intent(CartActivity.this, CartActivity.class);
+                startActivity(intent);
+        }
+        return true;
+    }
 
 }

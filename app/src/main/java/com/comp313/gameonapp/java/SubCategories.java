@@ -1,6 +1,7 @@
 package com.comp313.gameonapp.java;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -25,6 +26,7 @@ import java.util.List;
 
 public class SubCategories extends AppCompatActivity {
 
+    SharedPreferences preferences;
     private ListView listofSubCategory;
     private SubCategoryAdapter sadapter;
     List<SubCategoryModel> subcatlist;
@@ -54,14 +56,27 @@ public class SubCategories extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
+        Intent intent;
         switch (item.getItemId()) {
             case R.id.item_profile:
+                intent = new Intent(SubCategories.this, ProfileActivity.class);
+                preferences = getSharedPreferences("UserPref",0);
+                preferences.edit().clear();
+                startActivity(intent);
                 break;
             case R.id.item_category:
+                intent = new Intent(SubCategories.this, CategoryActivity.class);
+                startActivity(intent);
                 break;
             case R.id.item_logout:
+                intent = new Intent(SubCategories.this, LoginActivity.class);
+                preferences = getSharedPreferences("UserPref",0);
+                preferences.edit().clear();
+                startActivity(intent);
                 break;
+            case R.id.item_cart:
+                intent = new Intent(SubCategories.this, CartActivity.class);
+                startActivity(intent);
         }
         return true;
     }
