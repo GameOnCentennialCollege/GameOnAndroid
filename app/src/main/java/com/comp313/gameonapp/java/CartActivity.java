@@ -1,5 +1,6 @@
 package com.comp313.gameonapp.java;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -7,6 +8,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -18,9 +20,16 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.comp313.gameonapp.model.ProductModel;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.paypal.android.sdk.payments.PayPalConfiguration;
+import com.paypal.android.sdk.payments.PayPalPayment;
+import com.paypal.android.sdk.payments.PayPalService;
+import com.paypal.android.sdk.payments.PaymentActivity;
+import com.paypal.android.sdk.payments.PaymentConfirmation;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -30,6 +39,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.math.BigDecimal;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -42,6 +52,14 @@ public class CartActivity extends AppCompatActivity {
     private ListView listofprod;
     ArrayList prodlist;
     private com.comp313.gameonapp.java.CartActivity.ProductAdapter prodadapter;
+
+    private static PayPalConfiguration config = new PayPalConfiguration()
+
+            // Start with mock environment.  When ready, switch to sandbox (ENVIRONMENT_SANDBOX)
+            // or live (ENVIRONMENT_PRODUCTION)
+            .environment(PayPalConfiguration.ENVIRONMENT_NO_NETWORK)
+
+            .clientId("Ae7Ou_2OQY_ygK3JgY1jPCYHtPofBW_n49-O8iAqn2x6lz2rFPTK5KGeVOFboPPMqxkDlwulkHbf1TXA");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +81,10 @@ public class CartActivity extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
+        Intent intent = new Intent(this, PayPalService.class);
+        intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, config);
+        startService(intent);
 
     }
 
@@ -108,7 +130,9 @@ public class CartActivity extends AppCompatActivity {
             pimg = (ImageView) convertView.findViewById(R.id.pimg);
             pname = (TextView) convertView.findViewById(R.id.pname);
             pprice = (TextView) convertView.findViewById(R.id.pprice);
-            ImageLoader.getInstance().displayImage(productModelsList.get(position).getImage(), pimg);
+            ImageLoader imgLoader = ImageLoader.getInstance();
+            imgLoader.init(ImageLoaderConfiguration.createDefault(CartActivity.this));
+            imgLoader.displayImage(productModelsList.get(position).getImage(), pimg);
             pname.setText(productModelsList.get(position).getName());
             pprice.setText("Price: $" + productModelsList.get(position).getPrice());
 
@@ -229,6 +253,58 @@ public class CartActivity extends AppCompatActivity {
                 startActivity(intent);
         }
         return true;
+    }
+
+    public void onCheckOutClick(View view){
+        int amt = getTotalAmountToPay();
+        PayPalPayment payment = new PayPalPayment(new BigDecimal(String.valueOf(amt)), "USD", "Purchase from GameOnApp",
+                PayPalPayment.PAYMENT_INTENT_SALE);
+
+        Intent intent = new Intent(this, PaymentActivity.class);
+        // send the same configuration for restart resiliency
+        intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, config);
+        intent.putExtra(PaymentActivity.EXTRA_PAYMENT, payment);
+        startActivityForResult(intent, 0);
+    }
+
+    private int getTotalAmountToPay() {
+        int amount = 0;
+        for (Object item:prodlist) {
+            ProductModel oneProd = (ProductModel)item;
+            amount += oneProd.getPrice();
+            Log.e("price", String.valueOf(oneProd.getId()) +" = " + oneProd.getPrice());
+        }
+        return amount;
+    }
+
+    @Override
+    public void onDestroy() {
+        stopService(new Intent(this, PayPalService.class));
+        super.onDestroy();
+    }
+
+    @Override
+    protected void onActivityResult (int requestCode, int resultCode, Intent data) {
+        if (resultCode == Activity.RESULT_OK) {
+            PaymentConfirmation confirm = data.getParcelableExtra(PaymentActivity.EXTRA_RESULT_CONFIRMATION);
+            if (confirm != null) {
+                try {
+                    Log.i("paymentExample", confirm.toJSONObject().toString(4));
+                    Log.e("tag-note","This is Sandboxed Account");
+                    Log.e("tag-payment",confirm.toString());
+                    Toast.makeText(getApplicationContext(), "Your Payment has been made successfully", Toast.LENGTH_SHORT).show();
+                    // TODO: send 'confirm' to your server for verification.
+                } catch (JSONException e) {
+                    Log.e("paymentExample", "an extremely unlikely failure occurred: ", e);
+                }
+            }
+        }
+        else if (resultCode == Activity.RESULT_CANCELED) {
+            Log.i("paymentExample", "The user canceled.");
+        }
+        else if (resultCode == PaymentActivity.RESULT_EXTRAS_INVALID) {
+            Log.i("paymentExample", "An invalid Payment or PayPalConfiguration was submitted. Please see the docs.");
+        }
     }
 
 }
