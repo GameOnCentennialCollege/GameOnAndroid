@@ -1,24 +1,15 @@
 package com.comp313.gameonapp.java;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Parcelable;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.comp313.gameonapp.model.ProductModel;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -33,7 +24,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.Serializable;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -79,16 +69,19 @@ public class ProductActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
+        Intent intent;
         switch (item.getItemId()) {
             case R.id.item_profile:
                 break;
             case R.id.item_category:
-                Intent intent = new Intent(ProductActivity.this, CategoryActivity.class);
+                intent = new Intent(ProductActivity.this, CategoryActivity.class);
                 startActivity(intent);
                 break;
             case R.id.item_logout:
                 break;
+            case R.id.item_cart:
+                intent = new Intent(ProductActivity.this, CartActivity.class);
+                startActivity(intent);
         }
         return true;
     }
@@ -175,19 +168,6 @@ public class ProductActivity extends AppCompatActivity {
                     startActivity(intent);
                 }
             });
-
-
-//            listofprod.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//                @Override
-//                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                    String item = prodlist.get(position).getName();
-//                    int prodid = prodlist.get(position).getId();
-//                    Toast.makeText(getBaseContext(), item, Toast.LENGTH_LONG).show();
-//                    Intent intent = new Intent(ProductActivity.this, SubCategories.class);
-//                    intent.putExtra("Productid",prodid);
-//                    startActivity(intent);
-//                }
-//            });
 
 
         }

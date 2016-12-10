@@ -2,11 +2,8 @@ package com.comp313.gameonapp.java;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
-import android.os.StrictMode;
-import android.preference.PreferenceManager;
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -18,24 +15,18 @@ import android.widget.Toast;
 
 import com.comp313.gameonapp.json.JSONFunctions;
 import com.comp313.gameonapp.model.ProductModel;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
-
-import static com.comp313.gameonapp.java.R.id.colorspinner;
-import static com.comp313.gameonapp.java.R.id.pimg;
 
 public class ProductDescription extends Activity {
 
+    JSONObject jsonUserObj= null;
     private List<ProductModel> productList;
     Spinner spinnersize,spinnercolor;
     ArrayList<String> sizelist;
@@ -53,6 +44,15 @@ public class ProductDescription extends Activity {
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
+
+        SharedPreferences preferences = getSharedPreferences("UserPref",0);
+
+        try {
+            jsonUserObj = new JSONObject(((JSONArray)(new JSONObject(preferences.getString("user",null))).get("user")).getString(0));
+            setUserObjectJSON(jsonUserObj);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
         Button btnAddCart = (Button) findViewById(R.id.btnAddCart);
         btncart = (Button) findViewById(R.id.btnCart);
@@ -175,25 +175,6 @@ public class ProductDescription extends Activity {
                 else{
                     Toast.makeText(getApplicationContext(), "Sold Out", Toast.LENGTH_SHORT).show();
                 }
-
-
-//                SharedPreferences appSharedPrefs = getSharedPreferences("ProductsPref", MODE_PRIVATE);
-//                SharedPreferences.Editor prefsEditor = appSharedPrefs.edit();
-//                String json = appSharedPrefs.getString("ProductsList", null);
-//                if(json!=null) {
-//                    Gson gson1 = new Gson();
-//                    Type type = new TypeToken<List<ProductModel>>() {
-//                    }.getType();
-//                    productList.addAll((ArrayList<ProductModel>) gson1.fromJson(json, type));
-//                }
-//                productList.add(product);
-//
-//                Gson gson2 = new Gson();
-//                json = gson2.toJson(productList);
-//                prefsEditor.putString("ProductsList", json);
-//                prefsEditor.commit();
-//
-//                Toast.makeText(getApplicationContext(), "Product Added to cart", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -209,15 +190,30 @@ public class ProductDescription extends Activity {
                     objJson.put("CartQuantity",1);
                     objJson.put("CartQuantity",1);
                     objJson.put("CartUnitCost",product.getPrice());
-                    objJson.put("CartClientID",1);
+                    objJson.put("CartClientID",jsonUserObj.getString("UserID"));
                     json= objJson.toString();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
 
                 JSONObject jsoncart = JSONFunctions.sendJSONToURL(requestURL, json);
+                Toast.makeText(getApplicationContext(), "Item added to Cart", Toast.LENGTH_SHORT).show();
             }
         });
 
+    }
+
+    private void setUserObjectJSON(JSONObject jsonObject) {
+        jsonUserObj = new JSONObject();
+        try
+        {
+            jsonUserObj.put("UserID", jsonObject.get("UserID").toString());
+            jsonUserObj.put("UserPassword", jsonObject.get("UserPassword").toString());
+            jsonUserObj.put("UserName", jsonObject.get("UserName").toString());
+            jsonUserObj.put("UserEmail", jsonObject.get("UserEmail").toString());
+            jsonUserObj.put("UserPhone", jsonObject.get("UserPhone").toString());
+        }catch (JSONException jEx){
+            jEx.printStackTrace();
+        }
     }
 }

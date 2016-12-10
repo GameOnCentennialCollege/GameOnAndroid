@@ -25,4 +25,5 @@
     <string name="tCategory">Categories</string>
     <string name="tLogout">Logout</string>
     <string name="update">Update Info</string>
+    <string name="tCart">View Cart</string>
 </resources>
