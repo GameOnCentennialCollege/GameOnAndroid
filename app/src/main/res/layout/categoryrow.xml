@@ -7,10 +7,14 @@
     android:orientation="vertical"
     android:weightSum="1"
     android:padding="4dp">
-    <LinearLayout
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+
+        android:orientation="horizontal"
+        android:padding="10dp"
+        android:layout_weight="0.03">
+
 
         <TextView
             android:text="Department: "
@@ -19,7 +23,7 @@
             android:id="@+id/textViewdname"
             android:textSize="25sp"
             android:layout_weight="50"
-            android:textColor="#000000"/>
+            android:textColor="@color/Orange"/>
 
         <TextView
             android:text="Department"
@@ -28,20 +32,13 @@
             android:id="@+id/dname"
             android:textSize="25sp"
             android:layout_weight="50"
-            android:textColor="#000000"/>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <TextView
-            android:text="Category: "
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/textViewcname"
-            android:textSize="25sp"
-            android:layout_weight="50"
-            android:textColor="#000000"/>
+            android:textColor="@color/Orange"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/textViewdname"
+            android:layout_toEndOf="@+id/textViewdname"
+            android:layout_marginLeft="34dp"
+            android:layout_marginStart="34dp"
+           />
 
         <TextView
             android:text="Category"
@@ -50,8 +47,23 @@
             android:id="@+id/cname"
             android:layout_weight="50"
             android:textSize="25sp"
-            android:textColor="#000000"/>
+            android:textColor="@color/Orange"
+            android:layout_below="@+id/dname"
+            android:layout_alignLeft="@+id/dname"
+            android:layout_alignStart="@+id/dname" />
 
-    </LinearLayout>
+        <TextView
+            android:text="Category: "
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textViewcname"
+            android:textSize="25sp"
+            android:layout_weight="50"
+            android:textColor="@color/Orange"
+            android:layout_below="@+id/textViewdname"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
 
+
+    </RelativeLayout>
 </LinearLayout>

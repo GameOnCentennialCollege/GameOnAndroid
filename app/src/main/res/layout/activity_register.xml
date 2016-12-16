@@ -8,60 +8,72 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.comp313.gameonapp.java.RegisterActivity">
+    android:background="@drawable/back"
+    tools:context="com.comp313.gameonapp.java.RegisterActivity"
+    android:weightSum="1">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/userid"
+        android:textColor="@color/Orange"
         android:id="@+id/tvFirstName" />
     <EditText
         android:layout_width="210dp"
         android:layout_height="wrap_content"
-        android:id="@+id/tbUserId" />
+        android:id="@+id/tbUserId"
+        android:textColor="@color/Orange"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/userpassword"
-        android:id="@+id/tvLastName" />
+        android:id="@+id/tvLastName"
+        android:textColor="@color/Orange"/>
     <EditText
         android:layout_width="210dp"
         android:inputType="textPassword"
         android:layout_height="wrap_content"
-        android:id="@+id/tbUserPassword" />
+        android:id="@+id/tbUserPassword"
+        android:textColor="@color/Orange"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/username"
-        android:id="@+id/tvUserName" />
+        android:id="@+id/tvUserName"
+        android:textColor="@color/Orange"/>
     <EditText
         android:layout_width="210dp"
         android:layout_height="wrap_content"
-        android:id="@+id/tbUserName" />
+        android:id="@+id/tbUserName"
+        android:textColor="@color/Orange"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/email"
         android:inputType="textEmailAddress"
-        android:id="@+id/tvUserEmail" />
+        android:id="@+id/tvUserEmail"
+        android:textColor="@color/Orange"/>
     <EditText
         android:layout_width="210dp"
         android:layout_height="wrap_content"
-        android:id="@+id/tbUserEmail" />
+        android:id="@+id/tbUserEmail"
+        android:textColor="@color/Orange"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="number"
         android:text="@string/userphone"
-        android:id="@+id/tvUserPhone" />
+        android:id="@+id/tvUserPhone"
+        android:textColor="@color/Orange"/>
     <EditText
         android:layout_width="210dp"
         android:layout_height="wrap_content"
-        android:id="@+id/tbUserPhone" />
+        android:id="@+id/tbUserPhone"
+        android:textColor="@color/Orange"/>
 
     <Button
         android:layout_width="wrap_content"
@@ -69,8 +81,11 @@
         android:text="@string/register"
         android:id="@+id/btnAddPatient"
         android:onClick="register"
+        android:textColor="@color/Orange"
+        android:background="@null"
         android:layout_marginLeft="37dp"
         android:layout_marginStart="37dp"
-        android:layout_marginTop="47dp" />
+        android:layout_marginTop="47dp"
+        android:layout_weight="0.06" />
 
 </LinearLayout>

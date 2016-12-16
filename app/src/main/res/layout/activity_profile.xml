@@ -9,63 +9,74 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="@drawable/general"
     tools:context="com.comp313.gameonapp.java.ProfileActivity">
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/userid"
-        android:id="@+id/tvPFName" />
+        android:id="@+id/tvPFName"
+        android:textColor="@color/Orange"/>
     <EditText
         android:layout_width="210dp"
         android:enabled="false"
         android:layout_height="wrap_content"
-        android:id="@+id/tbPUserId" />
+        android:id="@+id/tbPUserId"
+        android:textColor="@color/Orange"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/userpassword"
-        android:id="@+id/tvPLastName" />
+        android:id="@+id/tvPLastName"
+        android:textColor="@color/Orange"/>
     <EditText
         android:layout_width="210dp"
         android:inputType="textPassword"
         android:enabled="false"
         android:layout_height="wrap_content"
-        android:id="@+id/tbPUserPassword" />
+        android:id="@+id/tbPUserPassword"
+        android:textColor="@color/Orange"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/username"
-        android:id="@+id/tvPUserName" />
+        android:id="@+id/tvPUserName"
+        android:textColor="@color/Orange"/>
     <EditText
         android:layout_width="210dp"
         android:enabled="false"
         android:layout_height="wrap_content"
-        android:id="@+id/tbPUserName" />
+        android:id="@+id/tbPUserName"
+        android:textColor="@color/Orange"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/email"
         android:inputType="textEmailAddress"
-        android:id="@+id/tvPUserEmail" />
+        android:id="@+id/tvPUserEmail"
+        android:textColor="@color/Orange"/>
     <EditText
         android:layout_width="210dp"
         android:enabled="false"
         android:layout_height="wrap_content"
-        android:id="@+id/tbPUserEmail" />
+        android:id="@+id/tbPUserEmail"
+        android:textColor="@color/Orange"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="number"
         android:text="@string/userphone"
-        android:id="@+id/tvPUserPhone" />
+        android:id="@+id/tvPUserPhone"
+        android:textColor="@color/Orange"/>
     <EditText
         android:layout_width="210dp"
         android:layout_height="wrap_content"
         android:enabled="false"
-        android:id="@+id/tbPUserPhone" />
+        android:id="@+id/tbPUserPhone"
+        android:textColor="@color/Orange"/>
 
 </LinearLayout>
